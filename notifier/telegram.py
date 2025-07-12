@@ -11,7 +11,6 @@ def send_message(text):
 
 
 def send_photo(caption, img_data):
-    # invia foto
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendPhoto"
     files = {'photo': img_data}
     data = {
