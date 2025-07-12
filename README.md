@@ -49,7 +49,7 @@ pip install -r requirements.txt
 Edit `config.py`:
 
 ```python
-API_URL = "https://www.ransomlook.io"
+BASE_URL = "https://www.ransomlook.io"
 POLL_INTERVAL = 150  # 2.5 minutes
 TELEGRAM_TOKEN = "your_telegram_bot_token_here"
 TELEGRAM_CHAT_ID = "your_channel_or_group_chat_id_here"
