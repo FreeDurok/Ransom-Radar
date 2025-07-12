@@ -1,2 +1,119 @@
-# Ransom-Radar
-Get 🚨 real-time alerts on 🕷 ransomware leaks &amp; victims.   Stay ahead of 💻 cyber extortion campaigns 🌍 worldwide. 🔒
+# 🕷 Ransom Radar
+
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+
+
+<p align="center">
+  <img src=".img/Ransom Radar.png" alt="Ransom Radar Logo" width="300"/>
+</p>
+
+## Description
+Get 🚨 **real-time alerts** on new ransomware posts, leaks and extortion attempts.  
+This tool polls [RansomLook](https://www.ransomlook.io) and sends alerts to a Telegram channel or group.
+
+---
+
+## 🚀 Features
+- Polls RansomLook API for new ransomware victims.
+- Maintains a local `.cache` to avoid duplicate alerts.
+- Sends rich notifications (with group, victim, date, description, screenshot) via Telegram.
+- Lightweight and modular Python design.
+
+---
+
+## ⚙ Requirements
+- Python 3.8+
+- Libraries listed in `requirements.txt`
+
+```bash
+git clone https://github.com/FreeDurok/Ransom-Radar.git
+cd Ransom-Radar
+
+python3 -m venv venv
+source venv/bin/activate
+
+pip install -r requirements.txt
+```
+
+---
+## 🔑 Telegram Setup
+1. Create a bot with [BotFather](https://t.me/BotFather) on Telegram.
+2. Obtain your **bot token**.
+3. Add the bot to your channel or group and give it permission to post messages.
+4. Obtain your **chat ID**.  
+ - For groups, you can use the `@RawDataBot` to get the chat ID.
+---
+
+## 📝 Configuration
+Edit `config.py`:
+
+```python
+API_URL = "https://www.ransomlook.io"
+POLL_INTERVAL = 150  # 2.5 minutes
+TELEGRAM_TOKEN = "your_telegram_bot_token_here"
+TELEGRAM_CHAT_ID = "your_channel_or_group_chat_id_here"
+```
+
+---
+
+
+## 🚀 Run
+
+```bash
+python3 main.py
+```
+
+It will start polling immediately and notify your Telegram channel/group.
+
+---
+
+## 📂 Cache
+
+Keeps a `.cache/state.json` file to track already notified posts.
+
+---
+
+## 📜 Create the systemd service file
+
+Create a file at:
+```
+touch /etc/systemd/system/ransom-radar.service
+```
+
+with the following content:
+
+```ini
+[Unit]
+Description=Ransom Radar - Ransomware Telegram Notifier
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/Ransom-Radar
+ExecStart=/opt/Ransom-Radar/venv/bin/python3 /opt/Ransom-Radar/main.py
+Restart=always
+RestartSec=10
+User=ubuntu
+
+[Install]
+WantedBy=multi-user.target
+```
+
+🔎 Note: replace User=ubuntu with the actual system user that owns the project directory.
+
+🔎 Note: move or clone the project in `/opt` folder.
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable ransom-radar
+sudo systemctl start ransom-radar
+sudo systemctl status ransom-radar
+```
+
+## 📄 License
+
+MIT
+
+
+
