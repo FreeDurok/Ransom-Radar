@@ -5,15 +5,18 @@ from config import OPENAI_API_KEY, PROXY_URL
 class OpenAIClient:
 
     def __init__(self, api_key=OPENAI_API_KEY, proxy_url=PROXY_URL):
-        if proxy_url:
+
+        if api_key and proxy_url:
             self.client = OpenAI(
                 api_key=api_key,
                 http_client=httpx.Client(proxy=proxy_url)
             )
-        else:
+        elif api_key:
             self.client = OpenAI(
                 api_key=api_key
             )
+        else:
+            self.client = None
         
 
     def enrich_entity(self, entity_name):
