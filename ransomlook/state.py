@@ -3,7 +3,7 @@ import json
 from collections import deque
 
 class State:
-    def __init__(self, cache_dir=".cache", filename="state.json", max_items=10000):
+    def __init__(self, cache_dir=".cache", filename="state.json", max_items=101):
         self.cache_dir = cache_dir
         self.filename = filename
         self.filepath = os.path.join(self.cache_dir, self.filename)
@@ -17,12 +17,15 @@ class State:
             try:
                 with open(self.filepath, "r") as f:
                     data = json.load(f)
-                    self.seen_ids = deque(data.get("seen_ids", []), maxlen=self.max_items)
+                    ids = data.get("seen_ids", [])
+                    # Trim loaded ids if file contains more than max_items
+                    self.seen_ids = deque(ids[-self.max_items:], maxlen=self.max_items)
             except Exception as e:
                 print(f"[WARN] Errore caricamento stato: {e}")
 
     def save(self):
         try:
+            # Only save the last max_items ids
             with open(self.filepath, "w") as f:
                 json.dump({"seen_ids": list(self.seen_ids)}, f, indent=4)
         except Exception as e:
@@ -31,6 +34,5 @@ class State:
     def is_new(self, post_id):
         if post_id not in self.seen_ids:
             self.seen_ids.append(post_id)
-            self.save()
             return True
         return False

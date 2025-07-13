@@ -1,4 +1,5 @@
 import hashlib
+from config import BASE_URL
 from datetime import datetime
 
 def format_date(raw_date):    
@@ -11,19 +12,28 @@ def compute_post_id(post):
 
 def format_message(post, group_info):
     
-    msg = f"🚨 <b>New Ransomware Post!</b> 🚨\n\n" \
-        f"🕷 <b>Ransom Group:</b>  <code>{post.get('group_name')}</code>\n\n" \
-        f"☢️​ <b>Victim:</b>  <code>{post.get('post_title')}</code>\n" \
-        f"📅 <b>Discovered:</b>  <code>{format_date(post.get('discovered'))}</code>\n\n" \
-        # f"🔗 <b>Group URL:</b> https://{group_info.get('fqdn')}\n" \
-        # f"⏰ <b>Group Updated:</b> {format_date(group_info.get('updated', 'N/A'))}\n\n" \
-    
-    if post.get('description'):
-        msg += f"📝 <b>Description:</b>\n<code>{post.get('description').strip()}</code>\n\n"
+    group_name = post.get('group_name', 'Unknown').title()
+    description = post.get('description', None)
+    post_title = post.get('post_title', 'No Title')
+    discovered = post.get('discovered', 'N/A')
+    fqdn = group_info.get('fqdn', 'unknown.com')
+    link = post.get('link', None)
+    screen = post.get('screen', None)
 
-    if post.get('link'):
-        msg += f"🔗 <b>URL:</b>  https://{group_info.get('fqdn')}{post.get('link')}\n"
+    msg = f"🚨 <b>New Ransomware Post!</b> 🚨\n\n" \
+        f"🕷 <b>Ransom Group:</b>\n       <a href='{BASE_URL}/group/{group_name}'>{group_name}</a>\n\n" \
+        f"☢️​ <b>Victim:</b>\n       <code>{post_title}</code>\n" \
+        f"📅 <b>Discovered:</b>\n       <code>{format_date(discovered)}</code>\n\n" \
+
+    if description:
+        msg += f"📝 <b>Description:</b>\n<code>{description.strip()}</code>\n\n"
+
+    if link:
+        msg += f"🔗 <b>URL:</b>  https://{fqdn}{link}\n\n"
     else:
-        msg += f"🔗 <b>URL:</b>  https://{group_info.get('fqdn')}\n"
+        msg += f"🔗 <b>URL:</b>  https://{fqdn}\n\n"
+
+    if screen:
+        msg += "🖼  <b>Screenshot</b>  ⬇️​\n"
 
     return msg
