@@ -5,9 +5,14 @@ from config import OPENAI_API_KEY, PROXY_URL
 class OpenAIClient:
 
     def __init__(self, api_key=OPENAI_API_KEY, proxy_url=PROXY_URL):
-        self.client = OpenAI(
-            api_key=api_key,
-            # http_client=httpx.Client(proxy=proxy_url)
+        if proxy_url:
+            self.client = OpenAI(
+                api_key=api_key,
+                http_client=httpx.Client(proxy=proxy_url)
+            )
+        else:
+            self.client = OpenAI(
+                api_key=api_key
             )
         
 
