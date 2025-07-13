@@ -24,12 +24,12 @@ scheduler = BlockingScheduler()
 
 @scheduler.scheduled_job('interval', seconds=POLL_INTERVAL)
 def ransomlook_jobs():
-    process_new_ransomlook_posts()
+    process_new_ransomlook_posts(AI_ENABLED=False)
 
 
 @scheduler.scheduled_job('interval', seconds=POLL_INTERVAL)
 def ransomfeed_jobs():
-    process_new_ransomfeed_posts()
+    process_new_ransomfeed_posts(AI_ENABLED=False)
 
 
 scheduler.start()

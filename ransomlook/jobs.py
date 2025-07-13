@@ -3,14 +3,26 @@ import time
 from ransomlook.client import RansomLookClient
 from ransomlook.state import RansomLookState
 from ransomlook.utils import compute_post_id, format_message
-from notifier.telegram import send_message, send_photo
+from modules.notifier.telegram import send_message, send_photo
+from modules.augmentation.openai_client import OpenAIClient
 
+openai_client = OpenAIClient()
 
 client = RansomLookClient()
 state = RansomLookState()
 
+def enrich_info(post):
+    victim = post.get('post_title', None)
+    victim_info = openai_client.enrich_entity(victim)
+    if not victim_info:
+        logging.warning(f"No enrichment data found for victim: {victim}")
+        return post
+    post['ai_description'] = victim_info.get('description', None)
+    post['ai_country'] = victim_info.get('country', None)
+    return post
 
-def process_new_ransomlook_posts():
+
+def process_new_ransomlook_posts(AI_ENABLED=False):
     
     try:
         posts = client.get_recent_posts()[::-1]
@@ -24,6 +36,8 @@ def process_new_ransomlook_posts():
             if state.is_new(post_id):
                 group_name = post.get('group_name', 'Unknown')
                 group_info = client.get_group_info(group_name=group_name)
+                if AI_ENABLED:
+                    post = enrich_info(post)
                 msg = format_message(post, group_info)
                 try:
                     send_message(msg)
