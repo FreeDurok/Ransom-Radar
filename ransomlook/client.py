@@ -1,10 +1,13 @@
 import requests
-import json
 import base64
 
+from ransomlook.config import BASE_URL
+
 class RansomLookClient:
-    def __init__(self, base_url):
+
+    def __init__(self, base_url=BASE_URL):
         self.base_url = base_url
+
 
     def get_post_screen(self, post):
         screen_url = f"{self.base_url}/{post.get('screen')}"
@@ -12,10 +15,12 @@ class RansomLookClient:
         resp.raise_for_status()
         return resp.content        
 
+
     def get_recent_posts(self):
         resp = requests.get(f"{self.base_url}/api/recent")
         resp.raise_for_status()
         return resp.json()
+
 
     def get_group_info(self, group_name):
         resp = requests.get(f"{self.base_url}/api/group/{group_name}")

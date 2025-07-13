@@ -1,10 +1,11 @@
 import os
 import json
-from ransomlook.config import CACHE_DIR
+from ransomfeed.config import CACHE_DIR
 from collections import deque
 
 
-class RansomLookState:
+class RansomFeedState:
+
     def __init__(self, cache_dir=CACHE_DIR, filename="state.json", max_items=101):
         self.cache_dir = cache_dir
         self.filename = filename

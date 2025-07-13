@@ -10,14 +10,14 @@
 
 ## Description
 Get 🚨 **real-time alerts** on new ransomware posts, leaks and extortion attempts.  
-This tool polls [RansomLook](https://www.ransomlook.io) and sends alerts to a Telegram channel or group.
+This tool polls [RansomLook](https://www.ransomlook.io) and [RansomFeed](https://ransomfeed.it), sending alerts to a Telegram channel or group.
 
 ---
 
 ## 🚀 Features
-- Polls RansomLook API for new ransomware victims.
+- Polls RansomLook and RansomFeed API for new ransomware victims.
 - Maintains a local `.cache` to avoid duplicate alerts.
-- Sends rich notifications (with group, victim, date, description, screenshot) via Telegram.
+- Sends rich notifications (with group, victim, date, description, screenshot, etc.) via Telegram.
 - Lightweight and modular Python design.
 
 ---
@@ -54,6 +54,13 @@ POLL_INTERVAL = 150  # 2.5 minutes
 TELEGRAM_TOKEN = "your_telegram_bot_token_here"
 TELEGRAM_CHAT_ID = "your_channel_or_group_chat_id_here"
 ```
+
+Alternatively, you can use a `.env` file for configuration.  
+The project supports environment variables via the `python-dotenv` library.
+
+Create a `.env` file in the project root with the following content:
+
+This allows you to keep sensitive information out of your codebase and manage configuration more securely.
 
 ---
 
