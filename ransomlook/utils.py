@@ -21,7 +21,7 @@ def format_message(post, group_info):
     fqdn = group_info.get('fqdn', 'unknown.com')
     link = post.get('link', None)
     screen = post.get('screen', None)
-    msg = f"🚨 <b>New Ransomware Post</b> 🚨\n\n" \
+    msg = f"🚨 <b>New Ransom Post</b> 🚨\n\n" \
         f"🔎 <b>Source: <a href='{BASE_URL}'><u>RansomLook</u></a></b>\n\n" \
         f"🕷 <b>Ransom Group:\n       <a href='{BASE_URL}/group/{group_name}'><u>{group_name}</u></a></b>\n\n" \
         f"☢️​ <b>Victim:</b>\n       <code>{post_title}</code>\n" \
