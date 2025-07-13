@@ -1,5 +1,6 @@
 import logging
 import time
+import json
 from ransomfeed.client import RansomFeedClient
 from ransomfeed.state import RansomFeedState
 from ransomfeed.utils import format_message
@@ -13,14 +14,15 @@ client = RansomFeedClient()
 state = RansomFeedState()
 
 
-def enrich_info(post):
-    victim = post.get('victim', None)
-    victim_info = openai_client.enrich_entity(victim)
-    if not victim_info:
-        logging.warning(f"No enrichment data found for victim: {victim}")
+def enrich_post(post):
+    
+    ai_info = openai_client.enrich_post(post)
+    if not ai_info:
+        logging.warning(f"No enrichment data found for victim.")
         return post
-    post['ai_description'] = victim_info.get('description', None)
-    post['ai_country'] = victim_info.get('country', None)
+    ai_info = json.loads(ai_info)
+    post['ai_description'] = ai_info.get('description', None)
+    post['ai_country'] = ai_info.get('country', None)
     return post
 
 
@@ -36,7 +38,7 @@ def process_new_ransomfeed_posts(AI_ENABLED=False):
             post_id = post.get('id')
             if state.is_new(post_id):               
                 if AI_ENABLED:
-                    post = enrich_info(post)                                       
+                    post = enrich_post(post)                                       
                 msg = format_message(post)                
                 try:
                     send_message(msg)

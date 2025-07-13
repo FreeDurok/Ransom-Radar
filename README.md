@@ -19,6 +19,7 @@ This tool polls [RansomLook](https://www.ransomlook.io) and [RansomFeed](https:/
 - Maintains a local `.cache` to avoid duplicate alerts.
 - Sends rich notifications (with group, victim, date, description, screenshot, etc.) via Telegram.
 - Lightweight and modular Python design.
+- **Optional AI enrichment:** Automatically summarizes victim descriptions and generates insights using configurable AI models (e.g., Hugging Face, GPT-4, DeepSeek). AI features can be enabled or disabled in the configuration.
 
 ---
 
@@ -61,6 +62,17 @@ The project supports environment variables via the `python-dotenv` library.
 Create a `.env` file in the project root with the following content:
 
 This allows you to keep sensitive information out of your codebase and manage configuration more securely.
+
+### 🤖 AI Module Configuration
+
+"""
+Configuration for AI model selection and API access.
+
+- `AI_ENABLED`: Enables or disables AI features.
+- `AI_MODEL`: Specifies the model to use for inference. You can choose from public models on Hugging Face Model Hub (e.g., "moonshotai/kimi-k2-instruct", "gpt-4", "deepseek/deepseek-r1-0528").
+- `API_KEY`: API key for authentication. By default, uses the Hugging Face token from the environment variable `HF_API_KEY`.
+- `API_URL`: Endpoint for model inference. Defaults to Hugging Face Novita Inference API.
+- `PROXY_URL`: Optional proxy URL, loaded from the environment variable `PROXY_URL`.
 
 ---
 

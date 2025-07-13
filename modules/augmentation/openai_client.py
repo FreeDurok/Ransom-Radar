@@ -1,36 +1,43 @@
 import httpx
 from openai import OpenAI
-from config import OPENAI_API_KEY, PROXY_URL
+from config import PROXY_URL, API_KEY, API_URL, AI_MODEL
 
 class OpenAIClient:
 
-    def __init__(self, api_key=OPENAI_API_KEY, proxy_url=PROXY_URL):
+    def __init__(self, base_url=API_URL, api_key=API_KEY, proxy_url=PROXY_URL):
 
         if api_key and proxy_url:
             self.client = OpenAI(
+                base_url=base_url,
                 api_key=api_key,
                 http_client=httpx.Client(proxy=proxy_url)
             )
         elif api_key:
             self.client = OpenAI(
+                base_url=base_url,
                 api_key=api_key
             )
         else:
             self.client = None
         
 
-    def enrich_entity(self, entity_name):
+    def enrich_post(self, post):
+        victim = post.get('victim', None)
+        if not victim:
+            victim = post.get('post_title', None)
+        country = post.get('country', 'Unknown')
+
         prompt = (
-            f"Given the entity '{entity_name}', provide a precise and factual description including country of origin, annual revenue, number of employees, and whether it is publicly traded. "
+            f"Given the entity '{victim}' based in '{country}', provide a precise and factual description including country of origin, work sector, annual revenue, number of employees, and whether it is publicly traded. "
             "All these details should be included in the 'description' field. "
             "Respond strictly in JSON format with only the fields: 'description' and 'country'. "
             "Do not include any text outside the JSON."
         )
         response = self.client.chat.completions.create(
-            model="gpt-4",
+            model=AI_MODEL,
             messages=[
                 {"role": "user", "content": prompt}
             ]
-        )
+        )        
         return response.choices[0].message.content
         
