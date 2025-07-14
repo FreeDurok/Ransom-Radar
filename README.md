@@ -7,6 +7,7 @@
 <p align="center">
   <img src=".img/Ransom Radar.png" alt="Ransom Radar Logo" width="300"/>
 </p>
+
 ## Description
 Get 🚨 **real-time alerts** on new ransomware posts, leaks, and extortion attempts.  
 This tool polls [RansomLook](https://www.ransomlook.io), [RansomFeed](https://ransomfeed.it), and [RansomLive](https://www.ransomware.live), sending alerts to a Telegram channel or group.
