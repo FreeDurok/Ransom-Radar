@@ -55,7 +55,7 @@ def process_new_ransomlive_posts(ai_module=False):
                             photo = send_photo(caption=f"🖼 {post.get('victim')}", img_data=img_data)                            
                         except Exception as e:
                             logging.warning(f"Unable to send screenshot for post {post_id}: {e}")
-                    logging.info(f"Sent message for post {post_id}")
+                    logging.info(f"Sent message for post {post_id} from {BASE_URL}")
                     state.save()
                 except Exception as e:
                     if hasattr(e, 'response') and getattr(e.response, 'status_code', None) == 429:

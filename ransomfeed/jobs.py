@@ -1,7 +1,7 @@
 import logging
 import time
-import json
 import requests
+from ransomfeed.config import BASE_URL
 from ransomfeed.client import RansomFeedClient
 from ransomfeed.state import RansomFeedState
 from ransomfeed.utils import format_message
@@ -33,7 +33,7 @@ def process_new_ransomfeed_posts(ai_module=False):
                 msg = format_message(post)
                 try:
                     send_message(msg)
-                    logging.info(f"Sent message for post {post_id}")
+                    logging.info(f"Sent message for post {post_id} from {BASE_URL}")
                     state.save()
                 except Exception as e:
                     if hasattr(e, 'response') and getattr(e.response, 'status_code', None) == 429:
