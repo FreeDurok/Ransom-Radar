@@ -12,6 +12,8 @@
 Get 🚨 **real-time alerts** on new ransomware posts, leaks, and extortion attempts.  
 This tool polls [RansomLook](https://www.ransomlook.io), [RansomFeed](https://ransomfeed.it), and [RansomLive](https://www.ransomware.live), sending alerts to a Telegram channel or group.
 
+join in the already active channel -> [https://t.me/Ransom_Radar](https://t.me/Ransom_Radar)
+
 ---
 
 ## 🚀 Features
