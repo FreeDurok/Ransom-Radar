@@ -6,7 +6,7 @@ from providers.ransomlive.config import CACHE_DIR
 
 class RansomLiveState:
 
-    def __init__(self, cache_dir=CACHE_DIR, filename="state.json", max_items=101):
+    def __init__(self, cache_dir=CACHE_DIR, filename="state.json", max_items=200):
         self.cache_dir = cache_dir
         self.filename = filename
         self.filepath = os.path.join(self.cache_dir, self.filename)
