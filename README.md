@@ -14,6 +14,10 @@ This tool polls [RansomLook](https://www.ransomlook.io), [RansomFeed](https://ra
 
 **Join in the already active channel -> [https://t.me/Ransom_Radar](https://t.me/Ransom_Radar)**
 
+<a href="https://ko-fi.com/durok" target="_blank">
+  <img src="https://cdn.ko-fi.com/cdn/kofi5.png" alt="Buy Me a Coffee at ko-fi.com" height="40">
+</a>
+
 ---
 
 ## 🚀 Features
