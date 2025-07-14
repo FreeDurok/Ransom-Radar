@@ -63,8 +63,5 @@ def process_new_ransomlive_posts(ai_module=False):
                         time.sleep(60)
                     else:
                         logging.error(f"Failed to send message for post {post_id}: {e}")
-    except requests.exceptions.ConnectionError as e:
-        logging.error(f"Connection error: {e}")
-        time.sleep(60)
     except Exception as e:
         logging.error(e)
