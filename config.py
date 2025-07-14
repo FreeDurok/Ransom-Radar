@@ -9,7 +9,7 @@ LOG_FILE_PATH = os.path.expanduser("~/.ransom-radar/ransom_radar.log")
 
 # Telegram Bot Configuration
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID_TEST")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
 # AI Configuration
 AI_ENABLED = True
