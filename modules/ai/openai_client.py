@@ -1,4 +1,6 @@
 import httpx
+import logging
+import json
 from openai import OpenAI
 from config import PROXY_URL, API_KEY, API_URL, AI_MODEL
 
@@ -15,16 +17,13 @@ class OpenAIClient:
         elif api_key:
             self.client = OpenAI(
                 base_url=base_url,
-                api_key=api_key
+                api_key=api_key,
             )
         else:
             self.client = None
         
-
     def enrich_post(self, post):
         victim = post.get('victim', None)
-        if not victim:
-            victim = post.get('post_title', None)
         country = post.get('country', 'Unknown')
 
         prompt = (
@@ -39,5 +38,16 @@ class OpenAIClient:
                 {"role": "user", "content": prompt}
             ]
         )        
-        return response.choices[0].message.content
+
+        ai_info = response.choices[0].message.content.strip()
+
+        if not ai_info:
+            logging.warning(f"No enrichment data found for victim.")
+            return post
+        ai_info = json.loads(ai_info)
+        post['ai_work_sector'] = ai_info.get('work_sector', None)
+        post['ai_description'] = ai_info.get('description', None)
+        post['ai_country'] = ai_info.get('country', None)
+
+        return post
         

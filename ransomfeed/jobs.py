@@ -6,7 +6,8 @@ from ransomfeed.client import RansomFeedClient
 from ransomfeed.state import RansomFeedState
 from ransomfeed.utils import format_message
 from modules.notifier.telegram import send_message 
-from modules.augmentation.openai_client import OpenAIClient
+from modules.ai.openai_client import OpenAIClient
+from modules.formatter.post_formatter import parse_post
 
 
 openai_client = OpenAIClient()
@@ -15,19 +16,7 @@ client = RansomFeedClient()
 state = RansomFeedState()
 
 
-def enrich_post(post):
-    ai_info = openai_client.enrich_post(post)
-    if not ai_info:
-        logging.warning(f"No enrichment data found for victim.")
-        return post
-    ai_info = json.loads(ai_info)
-    post['ai_work_sector'] = ai_info.get('work_sector', None)
-    post['ai_description'] = ai_info.get('description', None)
-    post['ai_country'] = ai_info.get('country', None)
-    return post
-
-
-def process_new_ransomfeed_posts(AI_ENABLED=False):
+def process_new_ransomfeed_posts(ai_module=False):
     try:
         posts = client.get_recent_posts()[::-1]        
         
@@ -37,10 +26,11 @@ def process_new_ransomfeed_posts(AI_ENABLED=False):
         
         for post in posts:
             post_id = post.get('id')
-            if state.is_new(post_id):               
-                if AI_ENABLED:
-                    post = enrich_post(post)                                       
-                msg = format_message(post)                
+            if state.is_new(post_id):
+                post = parse_post(post)
+                if ai_module:
+                    post = openai_client.enrich_post(post)                                                        
+                msg = format_message(post)
                 try:
                     send_message(msg)
                     logging.info(f"Sent message for post {post_id}")

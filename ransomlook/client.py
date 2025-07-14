@@ -10,7 +10,7 @@ class RansomLookClient:
 
 
     def get_post_screen(self, post):
-        screen_url = f"{self.base_url}/{post.get('screen')}"
+        screen_url = f"{self.base_url}/{post.get('screenshot')}"
         resp = requests.get(screen_url)
         resp.raise_for_status()
         return resp.content        

@@ -7,7 +7,8 @@ from ransomlive.client import RansomLiveClient
 from ransomlive.state import RansomLiveState
 from ransomlive.utils import format_message
 from modules.notifier.telegram import send_message, send_photo 
-from modules.augmentation.openai_client import OpenAIClient
+from modules.ai.openai_client import OpenAIClient
+from modules.formatter.post_formatter import parse_post
 
 
 openai_client = OpenAIClient()
@@ -17,10 +18,10 @@ state = RansomLiveState()
 
 def check_yara_link(post):
     group = post.get('group', None)
-    yara_rules = client.get_yara_by_group(group.title())     
+    yara_rules = client.get_yara_by_group(group.title())
     if yara_rules:
         filename = yara_rules['rules'][0].get('filename', None)
-        yara_link = f"{BASE_URL}/yara/{group}/{filename}"
+        yara_link = f"{BASE_URL}/yara/{group.title()}/{filename}"
         post['yara_link'] = yara_link
         return post
     else:
@@ -28,19 +29,7 @@ def check_yara_link(post):
         return post
 
 
-def enrich_post(post):
-    ai_info = openai_client.enrich_post(post)
-    if not ai_info:
-        logging.warning(f"No enrichment data found for victim.")
-        return post
-    ai_info = json.loads(ai_info)
-    post['ai_work_sector'] = ai_info.get('work_sector', None)
-    post['ai_description'] = ai_info.get('description', None)
-    post['ai_country'] = ai_info.get('country', None)
-    return post
-
-
-def process_new_ransomlive_posts(AI_ENABLED=False):
+def process_new_ransomlive_posts(ai_module=False):
     try:
         posts = client.get_recent_victims()        
         posts = posts.get('victims', [])
@@ -53,10 +42,11 @@ def process_new_ransomlive_posts(AI_ENABLED=False):
         for post in posts:
             post_id = post.get('id')
             if state.is_new(post_id): 
-                post = check_yara_link(post)                            
-                if AI_ENABLED:
-                    post = enrich_post(post)                                       
-                msg = format_message(post)                
+                post = check_yara_link(post)
+                post = parse_post(post)                      
+                if ai_module:
+                    post = openai_client.enrich_post(post)                                    
+                msg = format_message(post)             
                 try:
                     send_message(msg)
                     if post.get('screenshot', None):                            

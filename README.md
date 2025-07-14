@@ -72,6 +72,13 @@ Configuration for AI model selection and API access.
 - `API_URL`: Endpoint for model inference. Defaults to Hugging Face Novita Inference API.
 - `PROXY_URL`: Optional proxy URL, loaded from the environment variable `PROXY_URL`.
 
+### 🔐 Ransomware.live Pro API Access
+
+To use the **Pro API** features of [ransomware.live](https://www.ransomware.live), you must **register an account** and **request an API token** from their website.  
+Once you receive your token, add it to your configuration (e.g., in `ransomlive/config.py` or your `ransomlive/.env` file) as needed.
+
+Refer to the [ransomware.live documentation](https://www.ransomware.live/api) for details on registration and API usage.
+
 ---
 
 
