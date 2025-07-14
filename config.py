@@ -4,12 +4,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Configuration for Ransom Radar
-POLL_INTERVAL = 150 # seconds
+POLL_INTERVAL = 5 # seconds
 LOG_FILE_PATH = os.path.expanduser("~/.ransom-radar/ransom_radar.log")
 
 # Telegram Bot Configuration
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID_TEST")
 
 # AI Configuration
 AI_ENABLED = True

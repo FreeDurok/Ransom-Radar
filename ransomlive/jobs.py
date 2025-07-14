@@ -2,17 +2,30 @@ import logging
 import time
 import json
 import requests
-from ransomfeed.client import RansomFeedClient
-from ransomfeed.state import RansomFeedState
-from ransomfeed.utils import format_message
-from modules.notifier.telegram import send_message 
+from ransomlive.config import BASE_URL
+from ransomlive.client import RansomLiveClient
+from ransomlive.state import RansomLiveState
+from ransomlive.utils import format_message
+from modules.notifier.telegram import send_message, send_photo 
 from modules.augmentation.openai_client import OpenAIClient
 
 
 openai_client = OpenAIClient()
 
-client = RansomFeedClient()
-state = RansomFeedState()
+client = RansomLiveClient()
+state = RansomLiveState()
+
+def check_yara_link(post):
+    group = post.get('group', None)
+    yara_rules = client.get_yara_by_group(group.title())     
+    if yara_rules:
+        filename = yara_rules['rules'][0].get('filename', None)
+        yara_link = f"{BASE_URL}/yara/{group}/{filename}"
+        post['yara_link'] = yara_link
+        return post
+    else:
+        logging.warning(f"No YARA rule found for group {group}.")
+        return post
 
 
 def enrich_post(post):
@@ -27,22 +40,31 @@ def enrich_post(post):
     return post
 
 
-def process_new_ransomfeed_posts(AI_ENABLED=False):
+def process_new_ransomlive_posts(AI_ENABLED=False):
     try:
-        posts = client.get_recent_posts()[::-1]        
-        
+        posts = client.get_recent_victims()        
+        posts = posts.get('victims', [])
+        posts = list(reversed(posts))
+
         if not posts:
             logging.info("No new posts found.")
             return
         
         for post in posts:
             post_id = post.get('id')
-            if state.is_new(post_id):               
+            if state.is_new(post_id): 
+                post = check_yara_link(post)                            
                 if AI_ENABLED:
                     post = enrich_post(post)                                       
                 msg = format_message(post)                
                 try:
                     send_message(msg)
+                    if post.get('screenshot', None):                            
+                        try:
+                            img_data = client.get_post_screen(post)
+                            photo = send_photo(caption=f"🖼 {post.get('victim')}", img_data=img_data)                            
+                        except Exception as e:
+                            logging.warning(f"Unable to send screenshot for post {post_id}: {e}")
                     logging.info(f"Sent message for post {post_id}")
                     state.save()
                 except Exception as e:
@@ -52,7 +74,7 @@ def process_new_ransomfeed_posts(AI_ENABLED=False):
                     else:
                         logging.error(f"Failed to send message for post {post_id}: {e}")
     except requests.exceptions.ConnectionError as e:
-        logging.error(f"Connection error while fetching posts: {e}")
+        logging.error(f"Connection error: {e}")
         time.sleep(60)
     except Exception as e:
         logging.error(e)

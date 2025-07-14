@@ -19,6 +19,7 @@ def enrich_post(post):
         logging.warning(f"No enrichment data found for victim.")
         return post
     ai_info = json.loads(ai_info)
+    post['ai_work_sector'] = ai_info.get('work_sector', None)
     post['ai_description'] = ai_info.get('description', None)
     post['ai_country'] = ai_info.get('country', None)
     return post

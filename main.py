@@ -4,6 +4,7 @@ from config import POLL_INTERVAL, LOG_FILE_PATH, AI_ENABLED
 from logging.handlers import RotatingFileHandler
 from ransomlook.jobs import process_new_ransomlook_posts
 from ransomfeed.jobs import process_new_ransomfeed_posts
+from ransomlive.jobs import process_new_ransomlive_posts
 from apscheduler.schedulers.blocking import BlockingScheduler
 
 
@@ -30,6 +31,11 @@ def ransomlook_jobs():
 @scheduler.scheduled_job('interval', seconds=POLL_INTERVAL)
 def ransomfeed_jobs():
     process_new_ransomfeed_posts(AI_ENABLED=AI_ENABLED)
+
+
+@scheduler.scheduled_job('interval', seconds=POLL_INTERVAL)
+def ransomlive_jobs():
+    process_new_ransomlive_posts(AI_ENABLED=AI_ENABLED)
 
 
 scheduler.start()

@@ -30,7 +30,7 @@ class OpenAIClient:
         prompt = (
             f"Given the entity '{victim}' based in '{country}', provide a precise and factual description including country of origin, work sector, annual revenue, number of employees, and whether it is publicly traded. "
             "All these details should be included in the 'description' field. "
-            "Respond strictly in JSON format with only the fields: 'description' and 'country'. "
+            "Respond strictly in JSON format with only the fields: 'description', 'work_sector' and 'country'. "
             "Do not include any text outside the JSON."
         )
         response = self.client.chat.completions.create(
