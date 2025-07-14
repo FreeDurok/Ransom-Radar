@@ -28,7 +28,7 @@ def process_new_ransomfeed_posts(ai_module=False):
             post_id = post.get('id')
             if state.is_new(post_id):
                 post = parse_post(post)
-                if ai_module:
+                if ai_module and not "***" in post.get('victim', ''):
                     post = openai_client.enrich_post(post)                                                        
                 msg = format_message(post)
                 try:

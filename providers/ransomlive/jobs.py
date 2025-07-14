@@ -44,7 +44,7 @@ def process_new_ransomlive_posts(ai_module=False):
             if state.is_new(post_id): 
                 post = check_yara_link(post)
                 post = parse_post(post)                      
-                if ai_module:
+                if ai_module and not "***" in post.get('victim', ''):
                     post = openai_client.enrich_post(post)                                    
                 msg = format_message(post)             
                 try:

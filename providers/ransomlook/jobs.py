@@ -31,7 +31,7 @@ def process_new_ransomlook_posts(ai_module=False):
                 group_name = post.get('group_name', 'Unknown')
                 group_info = client.get_group_info(group_name=group_name)
                 post = parse_post(post, group_info=group_info)
-                if ai_module:
+                if ai_module and not "***" in post.get('victim', ''):
                     post = openai_client.enrich_post(post)
                 msg = format_message(post, group_info)
                 try:
