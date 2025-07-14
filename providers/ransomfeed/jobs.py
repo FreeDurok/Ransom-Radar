@@ -1,12 +1,12 @@
 import logging
 import time
 import requests
-from ransomfeed.config import BASE_URL
-from ransomfeed.client import RansomFeedClient
-from ransomfeed.state import RansomFeedState
-from ransomfeed.utils import format_message
-from modules.notifier.telegram import send_message 
+from providers.ransomfeed.config import BASE_URL
+from providers.ransomfeed.client import RansomFeedClient
+from providers.ransomfeed.state import RansomFeedState
+from providers.ransomfeed.utils import format_message
 from modules.ai.openai_client import OpenAIClient
+from modules.notifier.telegram import send_message 
 from modules.formatter.post_formatter import parse_post
 
 

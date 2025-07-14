@@ -1,6 +1,6 @@
 from datetime import datetime
-from ransomlive.libs.mypycountries import get_country_name
-from ransomlive.config import BASE_URL
+from providers.ransomlive.libs.mypycountries import get_country_name
+from providers.ransomlive.config import BASE_URL
 
 
 def format_dicovered_date(raw_date):    

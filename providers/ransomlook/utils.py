@@ -1,5 +1,5 @@
 import hashlib
-from ransomlook.config import BASE_URL
+from providers.ransomlook.config import BASE_URL
 from datetime import datetime
 
 

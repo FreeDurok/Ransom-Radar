@@ -1,7 +1,7 @@
 import requests
 import base64
 
-from ransomlook.config import BASE_URL
+from providers.ransomlook.config import BASE_URL
 
 class RansomLookClient:
 

@@ -3,9 +3,9 @@ import logging
 from config import POLL_INTERVAL, LOG_FILE_PATH, AI_ENABLED
 from logging.handlers import RotatingFileHandler
 from apscheduler.schedulers.blocking import BlockingScheduler
-from ransomlook.jobs import process_new_ransomlook_posts
-from ransomfeed.jobs import process_new_ransomfeed_posts
-from ransomlive.jobs import process_new_ransomlive_posts
+from providers.ransomlook.jobs import process_new_ransomlook_posts
+from providers.ransomfeed.jobs import process_new_ransomfeed_posts
+from providers.ransomlive.jobs import process_new_ransomlive_posts
 
 
 if not os.path.exists(os.path.dirname(LOG_FILE_PATH)):

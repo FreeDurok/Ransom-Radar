@@ -1,4 +1,4 @@
-from ransomfeed.config import BASE_URL
+from providers.ransomfeed.config import BASE_URL
 
 
 def format_message(post):

@@ -1,9 +1,9 @@
 import logging
 import time
-from ransomlook.config import BASE_URL
-from ransomlook.client import RansomLookClient
-from ransomlook.state import RansomLookState
-from ransomlook.utils import compute_post_id, format_message
+from providers.ransomlook.config import BASE_URL
+from providers.ransomlook.client import RansomLookClient
+from providers.ransomlook.state import RansomLookState
+from providers.ransomlook.utils import compute_post_id, format_message
 from modules.notifier.telegram import send_message, send_photo
 from modules.ai.openai_client import OpenAIClient
 from modules.formatter.post_formatter import parse_post

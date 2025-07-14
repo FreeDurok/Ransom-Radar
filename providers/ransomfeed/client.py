@@ -1,6 +1,6 @@
 import requests
 
-from ransomfeed.config import API_URL, BASE_URL
+from providers.ransomfeed.config import API_URL, BASE_URL
 
 class RansomFeedClient:
 

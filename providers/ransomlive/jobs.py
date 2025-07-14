@@ -2,10 +2,10 @@ import logging
 import time
 import json
 import requests
-from ransomlive.config import BASE_URL
-from ransomlive.client import RansomLiveClient
-from ransomlive.state import RansomLiveState
-from ransomlive.utils import format_message
+from providers.ransomlive.config import BASE_URL
+from providers.ransomlive.client import RansomLiveClient
+from providers.ransomlive.state import RansomLiveState
+from providers.ransomlive.utils import format_message
 from modules.notifier.telegram import send_message, send_photo 
 from modules.ai.openai_client import OpenAIClient
 from modules.formatter.post_formatter import parse_post

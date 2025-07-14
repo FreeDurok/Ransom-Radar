@@ -1,5 +1,5 @@
 import requests
-from ransomlive.config import API_URL, BASE_URL, API_TOKEN
+from providers.ransomlive.config import API_URL, BASE_URL, API_TOKEN
 
 class RansomLiveClient:
     def __init__(self, base_url=BASE_URL, api_url=API_URL):
