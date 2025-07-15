@@ -6,7 +6,7 @@ def parse_post(post, group_info=None):
         "id": post.get("id", "Unknown"),
         "group_name": post.get("gang") or post.get("group") or post.get("group_name", "Unknown"),
         "victim": post.get("victim") or post.get("post_title", "No Title"),
-        "discovered": post.get("date") or post.get("discovered", "N/A"),
+        "discovered": post.get("date") or post.get("discovered"),
         "attack_date": post.get("attackdate", None),
         "country": post.get("country", ""),
         "work_sector": post.get("work_sector", None),

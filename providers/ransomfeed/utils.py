@@ -5,7 +5,7 @@ def format_message(post):
     id = post.get('id', 'Unknown')
     group_name = post.get('group_name', 'Unknown')
     victim = post.get('victim', 'No Title')
-    discovered = post.get('discovererd', 'N/A')
+    discovered = post.get('discovered', 'N/A')
     country = post.get('country', 'Unknown')
     description = post.get('description', None)
     work_sector = post.get('work_sector', None)
