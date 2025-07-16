@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Configuration for Ransom Radar
-POLL_INTERVAL = 5 # seconds
+POLL_INTERVAL = 150 # seconds
 LOG_FILE_PATH = os.path.expanduser("~/.ransom-radar/ransom_radar.log")
 
 # Telegram Bot Configuration
