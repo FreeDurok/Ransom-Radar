@@ -24,13 +24,20 @@ class OpenAIClient:
         
     def enrich_post(self, post):
         victim = post.get('victim', None)
-        country = post.get('country', 'Unknown')
+        country = post.get('country', None)
+        website = post.get('website', None)
+
+        # prompt = (
+        #     f"Given the entity '{victim}' based in '{country}', provide a precise and factual description including country of origin, work sector, annual revenue, number of employees, and whether it is publicly traded. "
+        #     "All these details should be included in the 'description' field. "
+        #     "Respond strictly in JSON format with only the fields: 'description', 'work_sector' and 'country'. "
+        #     "Do not include any text outside the JSON."   
+        # )
 
         prompt = (
-            f"Given the entity '{victim}' based in '{country}', provide a precise and factual description including country of origin, work sector, annual revenue, number of employees, and whether it is publicly traded. "
-            "All these details should be included in the 'description' field. "
-            "Respond strictly in JSON format with only the fields: 'description', 'work_sector' and 'country'. "
-            "Do not include any text outside the JSON."
+            f"Given the entity '{victim}' based in '{country}' with this '{website}', provide a factual summary including country of origin, work sector, annual revenue, number of employees, and if publicly traded. "
+            "If any information is uncertain or unknown, respond with an empty string ('') as the value for that key. "
+            "Respond ONLY in JSON with fields: 'description', 'work_sector', 'country'. No extra text."
         )
         response = self.client.chat.completions.create(
             model=AI_MODEL,

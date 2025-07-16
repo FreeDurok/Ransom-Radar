@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Configuration for Ransom Radar
-POLL_INTERVAL = 150 # seconds
+POLL_INTERVAL = 5 # seconds
 LOG_FILE_PATH = os.path.expanduser("~/.ransom-radar/ransom_radar.log")
 
 # Telegram Bot Configuration
@@ -16,7 +16,7 @@ AI_ENABLED = True
 
 # OpenAI Configuration
 # API_KEY = os.getenv("OPENAI_API_KEY")
-# API_URL = "https://api.openai.com/v1/responses"
+# API_URL = ""
 # AI_MODEL="gpt-4",
 
 # Hugging Face Token for Novita Inference API
