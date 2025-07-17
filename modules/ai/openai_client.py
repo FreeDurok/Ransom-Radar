@@ -35,7 +35,7 @@ class OpenAIClient:
         # )
 
         prompt = (
-            f"Given the entity '{victim}' based in '{country}' with this website '{website}', provide a recise and factual description including country of origin, work sector, annual revenue, number of employees, and whether it is publicly traded. "
+            f"Given the entity '{victim}' based in '{country}' with this website '{website}', provide a precise and factual description including country of origin, work sector, annual revenue, number of employees, and whether it is publicly traded. "
             "If any information is uncertain or unknown, respond with an empty string ('') as the value for that key. "
             "Respond ONLY in JSON with fields: 'description', 'work_sector', 'country'. No extra text."
         )
